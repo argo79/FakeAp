@@ -1,0 +1,25 @@
+Listening on:
+   at0 -> 00:0E:2E:EE:8F:68
+	  192.168.2.129/255.255.255.0
+	  fe80::20e:2eff:feee:8f68/64
+
+SSL dissection needs a valid 'redir_command_on' script in the etter.conf file
+Privileges dropped to EUID 65534 EGID 65534...
+
+  33 plugins
+  42 protocol dissectors
+  57 ports monitored
+20388 mac vendor fingerprint
+1766 tcp OS fingerprint
+2182 known services
+Lua: no scripts were specified, not starting up!
+
+Starting Unified sniffing...
+
+
+Text only Interface activated...
+Hit 'h' for inline help
+
+
+Terminating ettercap...
+Lua cleanup complete!

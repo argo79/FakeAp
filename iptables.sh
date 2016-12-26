@@ -6,7 +6,7 @@
 clear
 #> impostare bridge con regole di /etc/dhcpd/dhcpd.conf
 #ifconfig at0 up
-ifconfig at0 192.168.2.129 netmask 255.255.255.128
+ifconfig at1 192.168.2.129 netmask 255.255.255.128
 #ifconfig at0 mtu 1500
 #> aggiungere il gw al routing
 route add -net 192.168.2.128 netmask 255.255.255.128 gw 192.168.2.129
